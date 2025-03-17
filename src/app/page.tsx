@@ -27,12 +27,21 @@ export default function Home() {
         </DialogContent>
       </Dialog>
 
+
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Updates</h2>
+        <h2 className="text-2xl font-bold mb-4">Updates</h2>
         <Updates />
       </div>
 
       <DesmosCalculators filter="all" />
+
+      <footer className="text-center text-muted-foreground mt-8">
+        <p><strong>DISCLAIMER:</strong> This site is meant for users to double check their work and learn from the calculators.</p>
+        <p>This is not intended to be used for any academic misconduct, but rather as a learning tool.</p>
+        <br />
+        <p>Found something wrong or need any help?</p>
+        <p>Email me at <a href="mailto:help@atlasproject.ca" className="text-blue-600">desmos@atlasproject.ca</a>.</p>
+      </footer>
     </div>
   );
 }
