@@ -14,6 +14,12 @@ export function Updates() {
       date: 1742243220001,
       title: "ENGG 202 Assignment 9",
       description: "Added calculators for all 3 questions in Assignment 9.",
+    },
+    {
+      id: 3,
+      date: 1742254037000,
+      title: "ENGG 259 Assignment 7",
+      description: "Added calculators for all 8 questions in Assignment 7.",
     }
   ];
 
