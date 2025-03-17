@@ -1,111 +1,208 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Calculator, ExternalLink } from "lucide-react"
+import { useState } from "react";
+import { Badge } from "@src/components/ui/badge";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@src/components/ui/card";
+import { Input } from "@src/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@src/components/ui/select";
+import { Calculator, ExternalLink } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@src/components/ui/accordion";
 
-// Sample data - replace with your actual data
-const calculators = [
+// Define types for our data structure
+interface Question {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  tags: string[];
+}
+
+interface Assignment {
+  id: string;
+  title: string;
+  questions: Question[];
+}
+
+interface CourseData {
+  id: string;
+  course: string;
+  assignments: Assignment[];
+}
+
+interface FlattenedCalculator {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  tags: string[];
+  course: string;
+  assignment: string;
+  assignmentId: string;
+  courseId: string;
+}
+
+interface GroupedAssignment {
+  title: string;
+  questions: FlattenedCalculator[];
+}
+
+interface GroupedCourse {
+  course: string;
+  assignments: {
+    [key: string]: GroupedAssignment;
+  };
+}
+
+interface GroupedCalculators {
+  [courseId: string]: GroupedCourse;
+}
+
+// Updated sample data with the requested courses
+const calculatorsData: CourseData[] = [
   {
-    id: 1,
-    title: "Limits and Continuity",
-    description: "Explore limits and continuity concepts",
-    url: "https://www.desmos.com/calculator/example1",
-    course: "Calculus I",
-    assignment: "Assignment 1",
-    tags: ["calculus", "limits", "continuity"],
+    id: "engg-259",
+    course: "ENGG 259",
+    assignments: [
+      
+    ],
   },
   {
-    id: 2,
-    title: "Derivatives and Applications",
-    description: "Practice derivative calculations and applications",
-    url: "https://www.desmos.com/calculator/example2",
-    course: "Calculus I",
-    assignment: "Assignment 2",
-    tags: ["calculus", "derivatives"],
+    id: "engg-202",
+    course: "ENGG 202",
+    assignments: [
+      {
+        id: "engg-202-a9",
+        title: "Assignment 9: Internal Forces and Moments (2D)",
+        questions: [
+          {
+            id: "engg-202-a9-q1",
+            title: "Question 1",
+            description: "Determine the internal shear force at a given point on a beam.",
+            url: "https://www.desmos.com/calculator/qygsiieyjc",
+            tags: ["statics", "internal forces", "beam", "shear force"],
+          },
+          {
+            id: "engg-202-a9-q2",
+            title: "Question 2",
+            description: "Determine the internal bending moment at a given point on a beam and loading system.",
+            url: "https://www.desmos.com/calculator/i0gtt1iffv",
+            tags: ["statics", "internal forces", "beam", "bending moment", "distributed load"],
+          },
+          {
+            id: "engg-202-a9-q3",
+            title: "Question 3",
+            description: "Determine the internal bending moment at a given point on a beam and loading system.",
+            url: "https://www.desmos.com/calculator/xmnoaz08y8",
+            tags: ["statics", "internal forces", "beam", "bending moment", "distributed load"],
+          },
+        ],
+      }
+    ],
   },
-  {
-    id: 3,
-    title: "Linear Equations Systems",
-    description: "Solve systems of linear equations graphically",
-    url: "https://www.desmos.com/calculator/example3",
-    course: "Algebra II",
-    assignment: "Assignment 1",
-    tags: ["algebra", "linear equations"],
-  },
-  {
-    id: 4,
-    title: "Quadratic Functions",
-    description: "Explore properties of quadratic functions",
-    url: "https://www.desmos.com/calculator/example4",
-    course: "Algebra II",
-    assignment: "Assignment 2",
-    tags: ["algebra", "quadratic"],
-  },
-  {
-    id: 5,
-    title: "Normal Distribution",
-    description: "Visualize normal distribution properties",
-    url: "https://www.desmos.com/calculator/example5",
-    course: "Statistics",
-    assignment: "Assignment 1",
-    tags: ["statistics", "normal distribution"],
-  },
-  {
-    id: 6,
-    title: "Hypothesis Testing",
-    description: "Interactive hypothesis testing visualization",
-    url: "https://www.desmos.com/calculator/example6",
-    course: "Statistics",
-    assignment: "Assignment 2",
-    tags: ["statistics", "hypothesis testing"],
-  },
-]
+];
+
+// Flatten the data for search and filtering
+const flattenData = (): FlattenedCalculator[] => {
+  const flattened: FlattenedCalculator[] = [];
+
+  calculatorsData.forEach((courseData) => {
+    courseData.assignments.forEach((assignment) => {
+      assignment.questions.forEach((question) => {
+        flattened.push({
+          id: question.id,
+          title: question.title,
+          description: question.description,
+          url: question.url,
+          tags: question.tags,
+          course: courseData.course,
+          assignment: assignment.title,
+          assignmentId: assignment.id,
+          courseId: courseData.id,
+        });
+      });
+    });
+  });
+
+  return flattened;
+};
+
+const allCalculators = flattenData();
 
 interface DesmosCalculatorsProps {
-  filter: string
+  filter: string;
 }
 
 export function DesmosCalculators({ filter }: DesmosCalculatorsProps) {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [courseFilter, setCourseFilter] = useState("all")
-  const [assignmentFilter, setAssignmentFilter] = useState("all")
+  const [searchTerm, setSearchTerm] = useState("");
+  const [courseFilter, setCourseFilter] = useState("all");
+  const [assignmentFilter, setAssignmentFilter] = useState("all");
 
   // Get unique courses and assignments for filter options
-  const courses = ["all", ...new Set(calculators.map((calc) => calc.course))]
-  const assignments = ["all", ...new Set(calculators.map((calc) => calc.assignment))]
+  const courses = ["all", ...new Set(allCalculators.map((calc) => calc.course))];
 
   // Filter calculators based on selected filters
-  const filteredCalculators = calculators.filter((calculator) => {
+  const filteredCalculators = allCalculators.filter((calculator) => {
     // Filter by tab category
     if (filter !== "all" && !calculator.tags.includes(filter)) {
-      return false
+      return false;
     }
 
     // Filter by search term
     if (
       searchTerm &&
       !calculator.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      !calculator.description.toLowerCase().includes(searchTerm.toLowerCase())
+      !calculator.description.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      !calculator.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      !calculator.course.toLowerCase().includes(searchTerm.toLowerCase())
     ) {
-      return false
+      return false;
     }
 
     // Filter by course
     if (courseFilter !== "all" && calculator.course !== courseFilter) {
-      return false
+      return false;
     }
 
     // Filter by assignment
     if (assignmentFilter !== "all" && calculator.assignment !== assignmentFilter) {
-      return false
+      return false;
     }
 
-    return true
-  })
+    return true;
+  });
+
+  // Group filtered calculators by course and assignment
+  const groupCalculators = (): GroupedCalculators => {
+    const grouped: GroupedCalculators = {};
+
+    filteredCalculators.forEach((calculator) => {
+      if (!grouped[calculator.courseId]) {
+        grouped[calculator.courseId] = {
+          course: calculator.course,
+          assignments: {},
+        };
+      }
+
+      if (!grouped[calculator.courseId].assignments[calculator.assignmentId]) {
+        grouped[calculator.courseId].assignments[calculator.assignmentId] = {
+          title: calculator.assignment,
+          questions: [],
+        };
+      }
+
+      grouped[calculator.courseId].assignments[calculator.assignmentId].questions.push(calculator);
+    });
+
+    return grouped;
+  };
+
+  const groupedCalculators = groupCalculators();
+
+  // Handle course filter change
+  const handleCourseChange = (value: string) => {
+    setCourseFilter(value);
+    setAssignmentFilter("all"); // Reset assignment filter when course changes
+  };
 
   return (
     <div>
@@ -114,9 +211,9 @@ export function DesmosCalculators({ filter }: DesmosCalculatorsProps) {
           placeholder="Search calculators..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="md:w-1/3"
+          className="md:w-2/3"
         />
-        <Select value={courseFilter} onValueChange={setCourseFilter}>
+        <Select value={courseFilter} onValueChange={handleCourseChange}>
           <SelectTrigger className="md:w-1/3">
             <SelectValue placeholder="Filter by course" />
           </SelectTrigger>
@@ -128,18 +225,6 @@ export function DesmosCalculators({ filter }: DesmosCalculatorsProps) {
             ))}
           </SelectContent>
         </Select>
-        <Select value={assignmentFilter} onValueChange={setAssignmentFilter}>
-          <SelectTrigger className="md:w-1/3">
-            <SelectValue placeholder="Filter by assignment" />
-          </SelectTrigger>
-          <SelectContent>
-            {assignments.map((assignment) => (
-              <SelectItem key={assignment} value={assignment}>
-                {assignment === "all" ? "All Assignments" : assignment}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
       </div>
 
       {filteredCalculators.length === 0 ? (
@@ -147,43 +232,67 @@ export function DesmosCalculators({ filter }: DesmosCalculatorsProps) {
           <p className="text-muted-foreground">No calculators found matching your filters.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCalculators.map((calculator) => (
-            <Card key={calculator.id} className="flex flex-col h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calculator className="h-5 w-5" />
-                  {calculator.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <p className="text-muted-foreground mb-4">{calculator.description}</p>
-                <div className="flex flex-wrap gap-2 mb-2">
-                  <Badge variant="outline">{calculator.course}</Badge>
-                  <Badge variant="outline">{calculator.assignment}</Badge>
-                </div>
-                <div className="flex flex-wrap gap-1">
-                  {calculator.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="text-xs">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter>
-                <a
-                  href={calculator.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-primary hover:underline"
-                >
-                  Open in Desmos <ExternalLink className="h-3 w-3" />
-                </a>
-              </CardFooter>
-            </Card>
-          ))}
+        <div className="space-y-8">
+          {Object.keys(groupedCalculators).map((courseId) => {
+            const courseData = groupedCalculators[courseId];
+            return (
+              <div key={courseId} className="border rounded-lg p-4">
+                <h2 className="text-xl font-semibold mb-4">{courseData.course}</h2>
+                <Accordion type="multiple" className="space-y-4">
+                  {Object.keys(courseData.assignments).map((assignmentId) => {
+                    const assignmentData = courseData.assignments[assignmentId];
+                    return (
+                      <AccordionItem
+                        key={assignmentId}
+                        value={assignmentId}
+                        className="border rounded-md overflow-hidden"
+                      >
+                        <AccordionTrigger className="px-4 py-2 hover:bg-muted/50">
+                          <span className="text-left font-medium">{assignmentData.title}</span>
+                        </AccordionTrigger>
+                        <AccordionContent className="px-4 pt-2 pb-4">
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            {assignmentData.questions.map((question) => (
+                              <Card key={question.id} className="h-full">
+                                <CardHeader className="pb-2">
+                                  <CardTitle className="text-lg flex items-center gap-2">
+                                    <Calculator className="h-5 w-5 text-primary" />
+                                    {question.title}
+                                  </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                  <p className="text-muted-foreground mb-4">{question.description}</p>
+                                  <div className="flex flex-wrap gap-1 mb-2">
+                                    {question.tags.map((tag) => (
+                                      <Badge key={tag} variant="secondary" className="text-xs">
+                                        {tag}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                </CardContent>
+                                <CardFooter>
+                                  <a
+                                    href={question.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1 text-primary hover:underline"
+                                  >
+                                    Open in Desmos <ExternalLink className="h-3 w-3" />
+                                  </a>
+                                </CardFooter>
+                              </Card>
+                            ))}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    );
+                  })}
+                </Accordion>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
-  )
+  );
 }

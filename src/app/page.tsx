@@ -1,40 +1,38 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { DesmosCalculators } from "./components/desmos-calculators"
-import { Updates } from "./components/updates"
+import { DesmosCalculators } from "@app/components/desmos-calculators"
+import { Updates } from "@app/components/updates"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@src/components/ui/dialog"
+import { Button } from "@src/components/ui/button"
 
 export default function Home() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold text-center mb-8">Desmos Solutions</h1>
+      <Dialog>
+        <div className="flex justify-center">
+          <h1 className="text-4xl font-bold text-center mb-8 pr-5">Desmos Solutions</h1>
+          <DialogTrigger asChild>
+            <Button style={{ borderRadius: '50%' }}>?</Button>
+          </DialogTrigger>
+        </div>
+
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>How do I use this?</DialogTitle>
+            <DialogDescription>
+              <strong>Step 1. </strong> Find the course and assignment you need help with.<br />
+              <strong>Step 2. </strong> Click on the calculator to open it.<br />
+              <strong>Step 3. </strong> Under the &quot;VARIABLES&quot; category, enter the values you have. Pay close attention to units.<br />
+              <strong>Step 4. </strong> Don&apos;t touch anything else. Your values will be calculated and displayed in the middle of the screen.<br />
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
 
       <div className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Updates</h2>
         <Updates />
       </div>
 
-      <Tabs defaultValue="all" className="w-full">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-          <TabsList>
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="calculus">Calculus</TabsTrigger>
-            <TabsTrigger value="algebra">Algebra</TabsTrigger>
-            <TabsTrigger value="statistics">Statistics</TabsTrigger>
-          </TabsList>
-        </div>
-
-        <TabsContent value="all">
-          <DesmosCalculators filter="all" />
-        </TabsContent>
-        <TabsContent value="calculus">
-          <DesmosCalculators filter="calculus" />
-        </TabsContent>
-        <TabsContent value="algebra">
-          <DesmosCalculators filter="algebra" />
-        </TabsContent>
-        <TabsContent value="statistics">
-          <DesmosCalculators filter="statistics" />
-        </TabsContent>
-      </Tabs>
+      <DesmosCalculators filter="all" />
     </div>
-  )
+  );
 }
