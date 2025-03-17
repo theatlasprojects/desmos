@@ -5,13 +5,13 @@ export function Updates() {
   const updates = [
     {
       id: 1,
-      date: 1742243225000,
+      date: 1742243220000,
       title: "Site Launch",
       description: "Initial launch of Desmos Solutions.",
     },
     {
       id: 2,
-      date: 1742243225001,
+      date: 1742243220001,
       title: "ENGG 202 Assignment 9",
       description: "Added calculators for all 3 questions in Assignment 9.",
     }
@@ -19,7 +19,7 @@ export function Updates() {
 
   function formatDate(timestamp: number) {
     const date = new Date(timestamp);
-    return date.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' });
+    return date.toLocaleString('en-US', { timeZone: 'America/Edmonton', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' });
   }
 
   return (
@@ -28,10 +28,10 @@ export function Updates() {
         <CardTitle>Updates</CardTitle>
         <CardDescription>Recent updates to this site and any calculators.</CardDescription>
       </CardHeader>
-      <hr className="border-t border-gray-200 pb-5" />
+      <hr className="border-t-2 border-gray-200 pb-5" />
       <CardContent>
         <div className="space-y-4">
-          {updates.sort((a, b) => b.date - a.date).map((update) => (
+          {updates.sort((a, b) => b.id - a.id).map((update) => (
             <div key={update.id} className="border-b pb-4 last:border-0">
               <div className="flex justify-between items-start mb-1">
                 <h3 className="font-medium">{update.title}</h3>
