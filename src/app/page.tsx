@@ -33,6 +33,9 @@ export default function Home() {
         <Updates />
       </div>
 
+      <hr className="border-t-2 border-gray-200 flex-grow pb-6" />
+      <h2 className="text-2xl font-bold mb-4">Calculators</h2>
+
       <DesmosCalculators filter="all" />
 
       <footer className="text-center text-muted-foreground mt-8">

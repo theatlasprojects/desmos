@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calculator, ExternalLink } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@src/components/ui/accordion";
 
-// Define types for our data structure
+// Interfaces for data structures.
 interface Question {
 	id: string;
 	title: string;
@@ -57,7 +57,7 @@ interface GroupedCalculators {
 	[courseId: string]: GroupedCourse;
 }
 
-// Updated sample data with the requested courses
+// Data for calculators.
 const calculatorsData: CourseData[] = [
 	{
 		id: "engg-259",
@@ -162,7 +162,7 @@ const calculatorsData: CourseData[] = [
 	},
 ];
 
-// Flatten the data for search and filtering
+// Flatten data for easier filtering.
 const flattenData = (): FlattenedCalculator[] => {
 	const flattened: FlattenedCalculator[] = [];
 
@@ -187,28 +187,30 @@ const flattenData = (): FlattenedCalculator[] => {
 	return flattened;
 };
 
+// Get all calculators.
 const allCalculators = flattenData();
 
 interface DesmosCalculatorsProps {
 	filter: string;
 }
 
+// Component for Desmos calculators.
 export function DesmosCalculators({ filter }: DesmosCalculatorsProps) {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [courseFilter, setCourseFilter] = useState("all");
 	const [assignmentFilter, setAssignmentFilter] = useState("all");
 
-	// Get unique courses and assignments for filter options
+	// Get unique courses and assignments for filter options.
 	const courses = ["all", ...new Set(allCalculators.map((calc) => calc.course))];
 
-	// Filter calculators based on selected filters
+	// Filter calculators based on selected filters.
 	const filteredCalculators = allCalculators.filter((calculator) => {
-		// Filter by tab category
+		// Filter by tab category.
 		if (filter !== "all" && !calculator.tags.includes(filter)) {
 			return false;
 		}
 
-		// Filter by search term
+		// Filter by search term.
 		if (
 			searchTerm &&
 			!calculator.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -219,12 +221,12 @@ export function DesmosCalculators({ filter }: DesmosCalculatorsProps) {
 			return false;
 		}
 
-		// Filter by course
+		// Filter by course.
 		if (courseFilter !== "all" && calculator.course !== courseFilter) {
 			return false;
 		}
 
-		// Filter by assignment
+		// Filter by assignment.
 		if (assignmentFilter !== "all" && calculator.assignment !== assignmentFilter) {
 			return false;
 		}
@@ -232,7 +234,7 @@ export function DesmosCalculators({ filter }: DesmosCalculatorsProps) {
 		return true;
 	});
 
-	// Group filtered calculators by course and assignment
+	// Group filtered calculators by course and assignment.
 	const groupCalculators = (): GroupedCalculators => {
 		const grouped: GroupedCalculators = {};
 
@@ -259,10 +261,10 @@ export function DesmosCalculators({ filter }: DesmosCalculatorsProps) {
 
 	const groupedCalculators = groupCalculators();
 
-	// Handle course filter change
+	// Handle course filter change.
 	const handleCourseChange = (value: string) => {
 		setCourseFilter(value);
-		setAssignmentFilter("all"); // Reset assignment filter when course changes
+		setAssignmentFilter("all"); // Reset assignment filter when course changes.
 	};
 
 	return (
