@@ -60,64 +60,64 @@ interface GroupedCalculators {
 // Data for calculators.
 const calculatorsData: CourseData[] = [
 	{
-		id: "engg-259",
-		course: "ENGG 259",
+		id: "phys-259",
+		course: "PHYS 259",
 		assignments: [
             {
-                id: "engg-259-a7",
+                id: "phys-259-a7",
                 title: "Assignment 7",
                 questions: [
                     {
-                        id: "engg-259-a7-q1",
+                        id: "phys-259-a7-q1",
                         title: "Question 1",
                         description: "Determine electron current from wire diameter and electron drift velocity.",
                         url: "https://www.desmos.com/calculator/oosdnw1ght",
                         tags: ["electromagnetism", "current", "electron", "drift velocity"]
                     },
                     {
-                        id: "engg-259-a7-q2",
+                        id: "phys-259-a7-q2",
                         title: "Question 2",
                         description: "Find the electric field strength inside the wire.",
                         url: "https://www.desmos.com/calculator/jxwmz34xfp",
                         tags: ["electromagnetism", "electric field", "wire"]
                     },
                     {
-                        id: "engg-259-a7-q3",
+                        id: "phys-259-a7-q3",
                         title: "Question 3",
                         description: "Calculate the resistance of resistors from resistivity and cross sections. This is a long question and has a lot of givens.",
                         url: "https://www.desmos.com/calculator/h4wlolgv1r",
                         tags: ["electromagnetism", "resistance", "resistor", "resistivity", "cross section"]
                     },
                     {
-                        id: "engg-259-a7-q4",
+                        id: "phys-259-a7-q4",
                         title: "Question 4",
                         description: "Find the current of a wire cut in half. I think this question is the same for everyone, but check to make sure.",
                         url: "https://www.desmos.com/calculator/adokkc8st8",
                         tags: ["electromagnetism", "current", "wire"]
                     },
                     {
-                        id: "engg-259-a7-q5",
+                        id: "phys-259-a7-q5",
                         title: "Question 5",
                         description: "Determine power when given parts of Ohm's law. This question is NOT the same for everyone.",
                         url: "https://www.desmos.com/calculator/sxb4tuehgd",
                         tags: ["electromagnetism", "power", "Ohm's law", "voltage", "current", "resistance"]
                     },
                     {
-                        id: "engg-259-a7-q6",
+                        id: "phys-259-a7-q6",
                         title: "Question 6",
                         description: "Find the resistance of resistor from a capacitor discharging.",
                         url: "https://www.desmos.com/calculator/drkt2gsixt",
                         tags: ["electromagnetism", "resistance", "resistor", "capacitor", "discharging"]
                     },
                     {
-                        id: "engg-259-a7-q7",
+                        id: "phys-259-a7-q7",
                         title: "Question 7",
                         description: "Given a circuit, determine capacitance and resistance of components given discharging information.",
                         url: "https://www.desmos.com/calculator/h0pmlt1rys",
                         tags: ["electromagnetism", "capacitance", "resistance", "capacitor", "discharging", "circuit", "battery"]
                     },
                     {
-                        id: "engg-259-a7-q8",
+                        id: "phys-259-a7-q8",
                         title: "Question 8",
                         description: "Determine the resistance of a resistor in series with a capacitor in a heart pacemaker.",
                         url: "https://www.desmos.com/calculator/sqr7w9uewc",

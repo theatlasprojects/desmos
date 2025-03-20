@@ -36,8 +36,14 @@ export function Updates() {
     {
       id: 3,
       date: 1742254037000,
-      title: "ENGG 259 Assignment 7",
+      title: "PHYS 259 Assignment 7",
       description: "Added calculators for all 8 questions in Assignment 7.",
+    },
+    {
+      id: 4,
+      date: 1742439167000,
+      title: "Typo Fixes",
+      description: "Fixed a pretty dumb typo where PHYS 259 was ENGG 259...",
     }
   ]
 
@@ -58,17 +64,17 @@ export function Updates() {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [animatingItems, setAnimatingItems] = useState<number[]>([])
 
-  // Track when visibleUpdates changes to animate new items
+  // Track when visibleUpdates changes to animate new items.
   useEffect(() => {
     if (visibleUpdates > previousVisibleCount) {
-      // Create array of indices for newly added updates
+      // Create array of indices for newly added updates.
       const newItems = Array.from({ length: visibleUpdates - previousVisibleCount }, (_, i) => previousVisibleCount + i)
       setAnimatingItems(newItems)
 
-      // Clear animation flags after animation completes
+      // Clear animation flags after animation completes.
       const timer = setTimeout(() => {
         setAnimatingItems([])
-      }, 800) // slightly longer than animation duration
+      }, 800) // slightly longer than animation duration.
 
       setPreviousVisibleCount(visibleUpdates)
       return () => clearTimeout(timer)
@@ -83,7 +89,7 @@ export function Updates() {
     setIsCollapsed(!isCollapsed)
   }
 
-  // Get sorted updates
+  // Get sorted updates.
   const sortedUpdates = updates.sort((a, b) => b.id - a.id).slice(0, visibleUpdates)
 
   return (
