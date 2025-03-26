@@ -44,6 +44,12 @@ export function Updates() {
       date: 1742439167000,
       title: "Typo Fixes",
       description: "Fixed a pretty dumb typo where PHYS 259 was ENGG 259...",
+    },
+    {
+      id: 5,
+      date: 1742990156000,
+      title: "PHYS 259 Assignment 8",
+      description: "Added calculators for most questions in Assignment 8. Some of them are theory, so they're not included. Let me know if there's any issues, it's super late and I'm tired.",
     }
   ]
 
