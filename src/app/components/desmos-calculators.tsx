@@ -186,6 +186,68 @@ const calculatorsData: CourseData[] = [
 						"tags": ["electromagnetism", "mass spectrometer", "mass", "particle", "magnetism"]
 					}
 				],
+			},
+			{
+				id: "phys-259-a9",
+				title: "Assignment 9",
+				questions: [
+					{
+						"id": "phys-259-a9-q1",
+						"title": "Question 1",
+						"description": "No description available.",
+						"url": "https://www.desmos.com/calculator/vcplanselz",
+						"tags": ["electromagnetism"]
+					},
+					{
+						"id": "phys-259-a9-q2",
+						"title": "Question 2",
+						"description": "No Desmos needed. This is a theory question. The answer is d^-1. Please try to do this yourself, remember to set up proportionalities.",
+						"url": null,
+						"tags": ["electromagnetism"]
+					},
+					{
+						"id": "phys-259-a9-q3",
+						"title": "Question 3",
+						"description": "No description available.",
+						"url": "https://www.desmos.com/calculator/ucrlrlybrw",
+						"tags": ["electromagnetism"]
+					},
+					{
+						"id": "phys-259-a9-q4",
+						"title": "Question 4",
+						"description": "No description available.",
+						"url": "https://www.desmos.com/calculator/blevfp9grt",
+						"tags": ["electromagnetism"]
+					},
+					{
+						"id": "phys-259-a9-q5",
+						"title": "Question 5",
+						"description": "No description available.",
+						"url": "https://www.desmos.com/calculator/l7cwx4u8ce",
+						"tags": ["electromagnetism"]
+					},
+					{
+						"id": "phys-259-a9-q6",
+						"title": "Question 6",
+						"description": "No description available.",
+						"url": "https://www.desmos.com/calculator/wbqva3bwc7",
+						"tags": ["electromagnetism"]
+					},
+					{
+						"id": "phys-259-a9-q7",
+						"title": "Question 7",
+						"description": "No description available.",
+						"url": "https://www.desmos.com/calculator/dpfzbmdhrw",
+						"tags": ["electromagnetism"]
+					},
+					{
+						"id": "phys-259-a9-q8",
+						"title": "Question 8",
+						"description": "No description available.",
+						"url": "https://www.desmos.com/calculator/z3aihyggww",
+						"tags": ["electromagnetism"]
+					}
+				],
 			}
 		],
 	},
